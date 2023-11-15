@@ -1,5 +1,4 @@
-Bu!
-{{products|json}}
+<!-- {{products|json}} -->
 <div class="row">
     <div class="col-4">
         Keresés: 
@@ -7,24 +6,40 @@ Bu!
     </div>
 </div>
 <div class="row">
-    <div *ngFor="let oszlop of oszlopok" class="col"><span>{{oszlop.text}}<bi (click)="sort(oszlop)"
-                name="arrow-down-up"></bi></span></div>
-    <div class="col">Műveletek</div>
+    <div *ngFor="let oszlop of oszlopok" class="col my-3 fw-bold">
+        <span>{{oszlop.text}}</span>
+        <span><bi (click)="sort(oszlop.key,oszlop.type)" name="arrow-down-up"></bi></span>
+    </div>
+    <div class="col">
+        Műveletek
+    </div>
 </div>
-<div *ngFor="let termek of (products | search:keresendo)| sort : mezo; irany" class="row">
+<div class="row">
+        <div *ngFor="let col of oszlopok" class="col">
+            <ng-container *ngIf="col.type=='plain'; else input">
+                <span>{{col.text}}</span>
+            </ng-container>
+            <ng-template #input>
+                <input [type]="col.type" [(ngModel)]="newProduct[col.key]" class="form-control">
+            </ng-template>
+        </div>
+        
+     <div class="col">
+        <button (click)="addProduct()" type="button" class="btn btn-primary">Hozzáad</button>
+     </div>
+</div>
+
+<div *ngFor="let termek of (products|search:keresendo)|sort:mezo:irany" class="row">
     <div *ngFor="let col of oszlopok" class="col">
         <ng-container *ngIf="col.type=='plain'; else input">
             <span>{{termek[col.key]}}</span>
         </ng-container>
         <ng-template #input>
-            <input type="{{col.type}}" [(ngModel)]="termek[col.key]">
+            <input [type]="col.type" [(ngModel)]="termek[col.key]">
         </ng-template>
-
-
     </div>
     <div class="col">
-        <button type="button" class="btn btn-primary" (click)="addProduct()">Hozzáad</button>
         <button type="button" class="btn btn-primary" (click)="updateProduct()">Mentés</button>
         <button type="button" class="btn btn-primary" (click)="deleteProduct(termek.id)">Töröl</button>
     </div>
-</div>
+

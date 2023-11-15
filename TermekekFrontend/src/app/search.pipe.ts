@@ -8,9 +8,10 @@ export class SearchPipe implements PipeTransform {
   transform(adatok:any, keresendo:any){
     if (!adatok) return null
     if (!keresendo || keresendo.length==0) return adatok
-    return adatok.filter(
+    adatok.filter(
       (sor:any)=>{ return sor.name.toLowerCase().includes(keresendo.toLowerCase())
       })
+      return adatok
   }
 
 }

@@ -11,7 +11,7 @@ export class KarbantartasComponent {
 
   products:any
   oszlopok:any
-  newProduct:any
+  newProduct:any={}
   keresendo:any
 
   mezo:any
@@ -22,8 +22,8 @@ export class KarbantartasComponent {
     this.oszlopok=this.conf.getProductsCols()
   }
 
-  sort(oszlop:any){
-    this.mezo=oszlop.key
+  sort(key:any, type:any){
+    this.mezo=key
     this.irany=!this.irany
   }
 
