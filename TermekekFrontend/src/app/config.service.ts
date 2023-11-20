@@ -1,23 +1,30 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ConfigService {
 
-  private termekOszlopok=[
-    {key:"id", text:"#", type:"plain"},
-    {key:"name", text:"Név", type:"text"},
-    {key:"price", text:"Ár", type:"number"},
-    {key:"description", text:"Leírás", type:"text"},
-    {key:"image_url", text:"Kép", type:"text"},
-  ]
+private textSub = new BehaviorSubject([])
 
-  constructor() { 
-  }
-  getProductsCols(){
-    return this.termekOszlopok
+  constructor(private http:HttpClient) { 
+    this.loadLangJson("hu")
   }
 
+  loadLangJson(sign:any){
+    this.http.get('../assets/lang'+sign+".json").subscribe(
+      (res:any)=>this.textSub.next(res)
+    )
+  }
+
+  getMessages(){
+    return this.textSub
+  }
+
+  setLanguage(lang:any){
+    this.loadLangJson(lang.sign)
+  }
 
 }

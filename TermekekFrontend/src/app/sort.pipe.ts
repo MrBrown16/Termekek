@@ -12,10 +12,22 @@ export class SortPipe implements PipeTransform {
     console.log("sortPipe irany: ",irany)
     if(!mezo) return adatok
 
+    switch (mezo) {
+      case "price":
+      case "id":
+        adatok.sort(
+          (a:any, b:any)=>{return Number(a[mezo])-Number(b[mezo]) }
+        )
+        break;
+    
+      default:
+        adatok.sort(
+          (a:any,b:any)=>{return a[mezo].localeCompare(b[mezo],{sensitivity:'base'})}
+        )
+        break;
+    }
 
-    adatok.sort(
-      (a:any,b:any)=>{return a[mezo].localeCompare(b[mezo],{sensitivity:'base'})}
-      )
+  
 
       if (!irany) adatok.reverse()
     

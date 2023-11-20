@@ -1,23 +1,27 @@
+<ng-container *ngIf="products && oszlopok" >
 <!-- {{products|json}} -->
 <div class="row">
     <div class="col-4">
-        Keresés: 
+        {{lblsearch}}: 
         <input type="text" [(ngModel)]="keresendo" class="form-control">
     </div>
 </div>
 <div class="row">
-    <div *ngFor="let oszlop of oszlopok" class="col my-3 fw-bold">
+    <div *ngFor="let oszlop of oszlopok" class="col my-3 fw-bold" (click)="sort(oszlop.key)">
         <span>{{oszlop.text}}</span>
-        <span><bi (click)="sort(oszlop.key,oszlop.type)" name="arrow-down-up"></bi></span>
+        <ng-container *ngIf="mezo==oszlop.key" >
+            <span><bi *ngIf="irany" (click)="sort(oszlop.key)" name="arrow-down"></bi></span>
+            <span><bi *ngIf="!irany" (click)="sort(oszlop.key)" name="arrow-up"></bi></span>
+        </ng-container>
     </div>
-    <div class="col">
-        Műveletek
+    <div class="col my-3 fw-bold">
+        {{karbantartas.actionHeaders}}
     </div>
 </div>
 <div class="row">
         <div *ngFor="let col of oszlopok" class="col">
             <ng-container *ngIf="col.type=='plain'; else input">
-                <span>{{col.text}}</span>
+                <span>#</span>
             </ng-container>
             <ng-template #input>
                 <input [type]="col.type" [(ngModel)]="newProduct[col.key]" class="form-control">
@@ -25,7 +29,7 @@
         </div>
         
      <div class="col">
-        <button (click)="addProduct()" type="button" class="btn btn-primary">Hozzáad</button>
+        <button (click)="addProduct()" type="button" class="btn btn-primary">{{karbantartas.btnAdd}}</button>
      </div>
 </div>
 
@@ -39,7 +43,8 @@
         </ng-template>
     </div>
     <div class="col">
-        <button type="button" class="btn btn-primary" (click)="updateProduct()">Mentés</button>
-        <button type="button" class="btn btn-primary" (click)="deleteProduct(termek.id)">Töröl</button>
+        <button type="button" class="btn btn-primary" (click)="updateProduct()">{{karbantartas.btnEdit}}</button>
+        <button type="button" class="btn btn-primary" (click)="deleteProduct(termek.id)">{{karbantartas.btnDelete}}</button>
     </div>
-
+</div>
+</ng-container>

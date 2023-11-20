@@ -4,6 +4,7 @@ import { KarbantartasComponent } from './karbantartas/karbantartas.component';
 
 const routes: Routes = [
   {path:"", component:KarbantartasComponent},
+  // {path:"/home", component:KarbantartasComponent},
 ];
 
 @NgModule({
